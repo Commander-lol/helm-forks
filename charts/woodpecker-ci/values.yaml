@@ -4,6 +4,7 @@ fullnameOverride: ""
 ## clusterDns will be used by the agents to locate the server service
 clusterDns: "svc.cluster.local"
 
+## @section Common Values
 ## Configuration values shared by the server and agent pods
 common:
   environment:
@@ -20,6 +21,7 @@ common:
       # WOODPECKER_ADMIN: user1,user2
       # OTHER_VAR: some_value
 
+## @section Server Configuration
 ## The server provides the UI and C&C capabilities of the woodpecker instance
 server:
   image:
@@ -59,6 +61,7 @@ server:
       - path: /
         pathType: ImplementationSpecific
 
+## @section Agent Configuration
 ## Agents run the actual build pipelines, and communicate back to the server instance.
 ## The amount of build parallelism is equal to R x P, where R is the number of replicas 
 ## (number of pods) and P is the parallelism of each pod (number of concurrent builds each
@@ -84,6 +87,7 @@ agent:
         cpu: 1
         memory: 2Gi
 
+## @skip resources
 resources: {}
   ## We usually recommend not to specify default resources and to leave this as a conscious
   ## choice for the user. This also increases chances charts run on environments with little
@@ -96,7 +100,7 @@ resources: {}
   #   cpu: 100m
   #   memory: 128Mi
 
-
+## @skip serviceAccount
 serviceAccount:
   ## Specifies whether a service account should be created
   create: true
@@ -106,11 +110,14 @@ serviceAccount:
   ## If not set and create is true, a name is generated using the fullname template
   name: ""
 
+## @skip podAnnotations
 podAnnotations: {}
 
+## @skip podSecurityContext
 podSecurityContext: {}
   # fsGroup: 2000
 
+## @skip securityContext
 securityContext: {}
   # capabilities:
   #   drop:
@@ -119,8 +126,11 @@ securityContext: {}
   # runAsNonRoot: true
   # runAsUser: 1000
 
+## @skip nodeSelector
 nodeSelector: {}
 
+## @skip tolerations
 tolerations: []
 
+## @skip affinity
 affinity: {}
