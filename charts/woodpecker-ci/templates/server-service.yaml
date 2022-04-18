@@ -16,4 +16,5 @@ spec:
       protocol: TCP
       name: grpc
   selector:
+    woodpecker.component: "server"
     {{- include "woodpecker-ci.selectorLabels" . | nindent 4 }}
