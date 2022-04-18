@@ -48,12 +48,8 @@ spec:
           {{- end }}
   {{- if .Values.server.tls }}
   tls:
-    {{- range .Values.server.ingress.tls }}
     - hosts:
-        {{- range .hosts }}
-        - {{ .Values.server.host | quote }}
-        {{- end }}
+      - {{ .Values.server.host | quote }}
       secretName: {{ $fullName }}-tls
-    {{- end }}
   {{- end }}
 {{- end }}

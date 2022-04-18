@@ -5,6 +5,6 @@ name: woodpecker-ci
 description: Woodpecker is a simple CI engine with great extensibility.
 icon: https://helm-forks.s3.eu-west-2.amazonaws.com/icons/woodpecker-ci.png
 
-version: 0.4.0
+version: 0.4.1
 appVersion: "v0.15.1"
 
