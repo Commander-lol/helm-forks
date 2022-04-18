@@ -15,7 +15,7 @@ Helm's [documentation](https://helm.sh/docs) to get started.
 
 Once Helm has been set up correctly, add the repo as follows:
 
-  `helm repo add <alias> https://commander-lol.github.io/helm-forks`
+    helm repo add <alias> https://commander-lol.github.io/helm-forks
 
 If you had already added this repo earlier, run `helm repo update` to retrieve
 the latest versions of the packages.  You can then run `helm search repo
@@ -25,8 +25,8 @@ To find the correct `chart-name` to use, check the above list.
 
 To install any of these charts:
 
-    `helm install <some-install-name> <alias>/<chart-name>`
+    helm install <some-install-name> <alias>/<chart-name>
 
 To uninstall the chart:
 
-    `helm delete <some-install-name>`
+    helm delete <some-install-name>
