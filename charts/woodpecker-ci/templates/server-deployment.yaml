@@ -58,6 +58,13 @@ spec:
             - name: grpc
               containerPort: 9000
               protocol: TCP
+          volumeMounts:
+            - name: sqlite-volume
+              mountPath: /var/lib/woodpecker
+      volumes:
+        - name: sqlite-volume
+          persistentVolumeClaim:
+            claimName: {{ include "woodpecker-ci.fullname" . }}
       {{- with .Values.nodeSelector }}
       nodeSelector:
         {{- toYaml . | nindent 8 }}
