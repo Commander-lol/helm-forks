@@ -23,6 +23,10 @@ If release name contains chart name it will be used as a full name.
 {{- end }}
 {{- end }}
 
+{{- define "woodpecker-ci.serverdns" -}}
+{{ printf "%s.%s.%s:9000" (include "woodpecker-ci.fullname" .) .Release.Namespace .Values.clusterDns }}
+{{- end }}
+
 {{/*
 Create chart name and version as used by the chart label.
 */}}
@@ -59,4 +63,20 @@ Create the name of the service account to use
 {{- else }}
 {{- default "default" .Values.serviceAccount.name }}
 {{- end }}
+{{- end }}
+
+{{/*
+    Template values 
+*/}}
+
+{{- define "woodpecker-ci.serverProtocol" -}}
+{{- if .Values.server.tls }}
+{{- printf "https" }}
+{{- else }}
+{{- printf "http" }}
+{{- end }}
+{{- end }}
+
+{{- define "woodpecker-ci.serverHost" -}}
+{{- printf "%s://%s" (include "woodpecker-ci.serverProtocol" .) .Values.server.host }}
 {{- end }}

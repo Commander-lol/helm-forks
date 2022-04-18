@@ -1,0 +1,88 @@
+{{- if .Values.server.enabled }}
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ include "woodpecker-ci.fullname" . }}-agent
+  labels:
+    woodpecker.component: "agent"
+    {{- include "woodpecker-ci.labels" . | nindent 4 }}
+spec:
+  replicas: {{ .Values.agent.replicas }}
+  selector:
+    matchLabels:
+      woodpecker.component: "agent"
+      {{- include "woodpecker-ci.selectorLabels" . | nindent 6 }}
+  template:
+    metadata:
+      {{- with .Values.podAnnotations }}
+      annotations:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      labels:
+        woodpecker.component: "agent"
+        {{- include "woodpecker-ci.selectorLabels" . | nindent 8 }}
+    spec:
+      {{- with .Values.imagePullSecrets }}
+      imagePullSecrets:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      serviceAccountName: {{ include "woodpecker-ci.serviceAccountName" . }}
+      securityContext:
+        {{- toYaml .Values.podSecurityContext | nindent 8 }}
+      containers:
+        - name: {{ .Chart.Name }}-agent
+          securityContext:
+            {{- toYaml .Values.securityContext | nindent 12 }}
+          image: "{{ .Values.agent.image.repository }}:{{ .Values.agent.image.tag | default .Chart.AppVersion }}"
+          imagePullPolicy: {{ .Values.agent.image.pullPolicy }}
+          env:
+            - name: WOODPECKER_SERVER
+              value: {{ include "woodpecker-ci.serverdns" . | quote }}
+            {{- range $key, $value := .Values.common.environment.variables }}
+            - name: {{ $key }}
+              value: {{ $value | quote }}
+            {{- end }}
+          {{- if .Values.common.secrets }}
+          envFrom:
+          {{- range .Values.common.secrets}}
+            - secretRef:
+                name: {{ . }}
+          {{- end }}
+          {{- end }}
+          {{- with .Values.agent.resources }}
+          resources:
+            {{- toYaml . | nindent 10 }}
+          {{- end }}
+          ports:
+            - name: http
+              containerPort: 3000
+              protocol: TCP
+          volumeMounts:
+            - name: sock-dir
+              mountPath: /var/run
+        - name: {{ .Chart.Name }}-dind
+          image: {{ .Values.agent.dind.image }}
+          securityContext:
+            privileged: true
+          env:
+            - name: DOCKER_DRIVER
+              value: overlay2
+          volumeMounts:
+            - name: sock-dir
+              mountPath: /var/run
+      volumes:
+        - name: sock-dir
+          emptyDir: {}
+      {{- with .Values.nodeSelector }}
+      nodeSelector:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      {{- with .Values.affinity }}
+      affinity:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      {{- with .Values.tolerations }}
+      tolerations:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+{{- end }}

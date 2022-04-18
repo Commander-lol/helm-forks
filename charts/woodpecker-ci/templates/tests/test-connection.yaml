@@ -11,5 +11,5 @@ spec:
     - name: wget
       image: busybox
       command: ['wget']
-      args: ['{{ include "woodpecker-ci.fullname" . }}:{{ .Values.service.port }}']
+      args: ['{{ include "woodpecker-ci.fullname" . }}:{{ .Values.server.service.port }}']
   restartPolicy: Never
