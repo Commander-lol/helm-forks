@@ -42,7 +42,7 @@ spec:
             - name: {{ $key }}
               value: {{ $value | quote }}
             {{- end }}
-          {{- if .Values.common.secrets }}
+          {{- if .Values.common.environment.secrets }}
           envFrom:
           {{- range .Values.common.environment.secrets}}
             - secretRef:
