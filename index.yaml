@@ -3,6 +3,17 @@ entries:
   woodpecker-ci:
   - apiVersion: v2
     appVersion: 0.15.1
+    created: "2022-04-18T19:12:54.184601661Z"
+    description: Woodpecker is a simple CI engine with great extensibility.
+    digest: c457b49e9dfc9b699b88fa614d9d34ed40ad07f62119fd381d571eb50a55eb37
+    icon: https://helm-forks.s3.eu-west-2.amazonaws.com/icons/woodpecker-ci.png
+    name: woodpecker-ci
+    type: application
+    urls:
+    - https://github.com/Commander-lol/helm-forks/releases/download/woodpecker-ci-0.2.3/woodpecker-ci-0.2.3.tgz
+    version: 0.2.3
+  - apiVersion: v2
+    appVersion: 0.15.1
     created: "2022-04-18T18:58:25.131518363Z"
     description: Woodpecker is a simple CI engine with great extensibility.
     digest: b23226d91bb967c2e614c87af49ff1567cabde60cd177cd576e40eecf26106a7
